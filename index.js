@@ -7,7 +7,8 @@ import {
   Animated,
   Dimensions,
   PanResponder,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  RefreshControl
 } from 'react-native';
 
 let HEIGHT = Dimensions.get('window').height;
@@ -311,6 +312,15 @@ var SortableListView = React.createClass({
         {...this.state.panResponder.panHandlers}
         ref="list"
         dataSource={dataSource}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.props.refreshing}
+            onRefresh={() => {
+                this.props.onRefresh()
+              }
+          }
+          />
+        }
         onScroll={e => {
           this.scrollValue = e.nativeEvent.contentOffset.y;
           if (this.props.onScroll) this.props.onScroll(e);
